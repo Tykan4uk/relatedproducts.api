@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+	  <CodeAnalysisRuleSet>../../settings.ruleset</CodeAnalysisRuleSet>
+	  <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+	  <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+		  <PrivateAssets>All</PrivateAssets>
+	  </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Configurations\" />
+    <Folder Include="Controllers\" />
+    <Folder Include="DataProviders\Abstractions\" />
+    <Folder Include="Data\" />
+    <Folder Include="Models\" />
+    <Folder Include="Services\Abstractions\" />
+  </ItemGroup>
+
+</Project>
