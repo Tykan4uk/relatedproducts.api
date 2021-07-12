@@ -14,7 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Configurations\" />
     <Folder Include="Controllers\" />
     <Folder Include="DataProviders\Abstractions\" />
     <Folder Include="Data\" />
