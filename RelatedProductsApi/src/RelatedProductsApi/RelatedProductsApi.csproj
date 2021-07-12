@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
-    <Folder Include="DataProviders\Abstractions\" />
     <Folder Include="Models\" />
     <Folder Include="Services\Abstractions\" />
   </ItemGroup>
