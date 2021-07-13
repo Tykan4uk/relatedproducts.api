@@ -13,14 +13,14 @@ namespace RelatedProductsApi.Services
     public class RelatedProductService : IRelatedProductService
     {
         private readonly IRelatedProductProvider _relatedProductProvider;
-        private readonly MapperConfiguration _mapperConfiguration;
         private readonly IMapper _mapper;
 
-        public RelatedProductService(IRelatedProductProvider relatedProductProvider)
+        public RelatedProductService(
+            IRelatedProductProvider relatedProductProvider,
+            IMapper mapper)
         {
             _relatedProductProvider = relatedProductProvider;
-            _mapperConfiguration = new MapperConfiguration(cfg => cfg.CreateMap<RelatedProduct, RelatedProductEntity>());
-            _mapper = new Mapper(_mapperConfiguration);
+            _mapper = mapper;
         }
 
         public async Task<GetByPageResponse> GetByPageAsync(int page)
