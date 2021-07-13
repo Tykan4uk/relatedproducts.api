@@ -76,11 +76,12 @@ namespace RelatedProductsApi.DataProviders
             return false;
         }
 
-        public async Task<int> CountProducts()
+        public async Task<int> GetPageCounterAsync()
         {
             return await Task.Run(() =>
             {
-                return _relatedProductsDbContext.RelatedProducts.Count();
+                double result = _relatedProductsDbContext.RelatedProducts.Count() / _pageSize;
+                return (int)Math.Ceiling(result);
             });
         }
     }

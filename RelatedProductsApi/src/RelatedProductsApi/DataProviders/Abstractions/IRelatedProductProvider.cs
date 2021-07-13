@@ -12,6 +12,6 @@ namespace RelatedProductsApi.DataProviders.Abstractions
         Task<RelatedProductEntity> AddAsync(RelatedProductEntity game);
         Task<bool> DeleteAsync(Guid guid);
         Task<bool> UpdateAsync(RelatedProductEntity game);
-        Task<int> CountProducts();
+        Task<int> GetPageCounterAsync();
     }
 }
