@@ -4,6 +4,6 @@ namespace RelatedProductsApi.Models.Requests
 {
     public class GetByPageRequest
     {
-        public IEnumerable<RelatedProduct> RelatedProducts { get; set; }
+        public int Page { get; set; }
     }
 }

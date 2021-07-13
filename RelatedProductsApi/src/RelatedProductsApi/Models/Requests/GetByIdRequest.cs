@@ -1,7 +1,9 @@
-﻿namespace RelatedProductsApi.Models.Requests
+﻿using System;
+
+namespace RelatedProductsApi.Models.Requests
 {
     public class GetByIdRequest
     {
-        public RelatedProduct RelatedProduct { get; set; }
+        public Guid Id { get; set; }
     }
 }

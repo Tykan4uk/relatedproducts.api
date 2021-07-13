@@ -2,6 +2,6 @@
 {
     public class UpdateRequest
     {
-        public bool IsUpdated { get; set; }
+        public RelatedProduct RelatedProduct { get; set; }
     }
 }
