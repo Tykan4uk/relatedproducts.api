@@ -27,14 +27,14 @@ namespace RelatedProductsApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetByPage(GetByPageRequest getByPageRequest)
+        public async Task<IActionResult> GetByPage([FromQuery] GetByPageRequest getByPageRequest)
         {
             var result = await _relatedProductService.GetByPageAsync(getByPageRequest.Page);
             return result != null ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetById(GetByIdRequest getByIdRequest)
+        public async Task<IActionResult> GetById([FromQuery] GetByIdRequest getByIdRequest)
         {
             var result = await _relatedProductService.GetByIdAsync(getByIdRequest.Id);
             return result != null ? Ok(result) : BadRequest(result);
