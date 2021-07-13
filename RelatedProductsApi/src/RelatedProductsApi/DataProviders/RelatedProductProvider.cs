@@ -80,7 +80,7 @@ namespace RelatedProductsApi.DataProviders
         {
             return await Task.Run(() =>
             {
-                double result = _relatedProductsDbContext.RelatedProducts.Count() / _pageSize;
+                var result = _relatedProductsDbContext.RelatedProducts.Count() / (double)_pageSize;
                 return (int)Math.Ceiling(result);
             });
         }
