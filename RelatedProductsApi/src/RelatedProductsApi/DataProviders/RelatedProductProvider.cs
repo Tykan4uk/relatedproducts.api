@@ -40,9 +40,9 @@ namespace RelatedProductsApi.DataProviders
             });
         }
 
-        public async Task<RelatedProductEntity> AddAsync(RelatedProductEntity game)
+        public async Task<RelatedProductEntity> AddAsync(RelatedProductEntity relatedProductEntity)
         {
-            var result = await _relatedProductsDbContext.RelatedProducts.AddAsync(game);
+            var result = await _relatedProductsDbContext.RelatedProducts.AddAsync(relatedProductEntity);
             await _relatedProductsDbContext.SaveChangesAsync();
 
             return result.Entity;
@@ -62,9 +62,9 @@ namespace RelatedProductsApi.DataProviders
             return false;
         }
 
-        public async Task<bool> UpdateAsync(RelatedProductEntity game)
+        public async Task<bool> UpdateAsync(RelatedProductEntity relatedProductEntity)
         {
-            var result = _relatedProductsDbContext.RelatedProducts.FirstOrDefault(f => f.Guid == game.Guid);
+            var result = _relatedProductsDbContext.RelatedProducts.FirstOrDefault(f => f.Guid == relatedProductEntity.Guid);
 
             if (result != null)
             {

@@ -9,9 +9,9 @@ namespace RelatedProductsApi.DataProviders.Abstractions
     {
         Task<IEnumerable<RelatedProductEntity>> GetByPageAsync(int page);
         Task<RelatedProductEntity> GetByIdAsync(Guid guid);
-        Task<RelatedProductEntity> AddAsync(RelatedProductEntity game);
+        Task<RelatedProductEntity> AddAsync(RelatedProductEntity relatedProductEntity);
         Task<bool> DeleteAsync(Guid guid);
-        Task<bool> UpdateAsync(RelatedProductEntity game);
+        Task<bool> UpdateAsync(RelatedProductEntity relatedProductEntity);
         Task<int> GetPageCounterAsync();
     }
 }
