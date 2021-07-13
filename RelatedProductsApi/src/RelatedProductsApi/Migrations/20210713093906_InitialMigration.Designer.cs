@@ -10,7 +10,7 @@ using RelatedProductsApi.Data;
 namespace RelatedProductsApi.Migrations
 {
     [DbContext(typeof(RelatedProductsDbContext))]
-    [Migration("20210713082517_InitialMigration")]
+    [Migration("20210713093906_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
