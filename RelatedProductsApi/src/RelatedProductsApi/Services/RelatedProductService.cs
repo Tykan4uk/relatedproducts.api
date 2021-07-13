@@ -32,9 +32,9 @@ namespace RelatedProductsApi.Services
             return new GetByPageResponse() { RelatedProducts = relatedProducts };
         }
 
-        public async Task<GetByIdResponse> GetByIdAsync(Guid guid)
+        public async Task<GetByIdResponse> GetByIdAsync(Guid id)
         {
-            var result = await _relatedProductProvider.GetByIdAsync(guid);
+            var result = await _relatedProductProvider.GetByIdAsync(id);
 
             var relatedProduct = _mapper.Map<RelatedProduct>(result);
 
@@ -52,9 +52,9 @@ namespace RelatedProductsApi.Services
             return new AddResponse() { RelatedProduct = relatedProductOut };
         }
 
-        public async Task<DeleteResponse> DeleteAsync(Guid guid)
+        public async Task<DeleteResponse> DeleteAsync(Guid id)
         {
-            var result = await _relatedProductProvider.DeleteAsync(guid);
+            var result = await _relatedProductProvider.DeleteAsync(id);
 
             return new DeleteResponse() { IsDeleted = result };
         }

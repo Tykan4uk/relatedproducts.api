@@ -8,9 +8,9 @@ namespace RelatedProductsApi.Services.Abstractions
     public interface IRelatedProductService
     {
         Task<GetByPageResponse> GetByPageAsync(int page);
-        Task<GetByIdResponse> GetByIdAsync(Guid guid);
+        Task<GetByIdResponse> GetByIdAsync(Guid id);
         Task<AddResponse> AddAsync(RelatedProduct relatedProduct);
-        Task<DeleteResponse> DeleteAsync(Guid guid);
+        Task<DeleteResponse> DeleteAsync(Guid id);
         Task<UpdateResponse> UpdateAsync(RelatedProduct relatedProduct);
         Task<GetPageCounterResponse> GetPageCounterAsync();
     }

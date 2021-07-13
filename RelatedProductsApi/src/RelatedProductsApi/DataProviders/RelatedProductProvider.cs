@@ -32,11 +32,11 @@ namespace RelatedProductsApi.DataProviders
             });
         }
 
-        public async Task<RelatedProductEntity> GetByIdAsync(Guid guid)
+        public async Task<RelatedProductEntity> GetByIdAsync(Guid id)
         {
             return await Task.Run(() =>
             {
-                return _relatedProductsDbContext.RelatedProducts.FirstOrDefault(f => f.Guid == guid);
+                return _relatedProductsDbContext.RelatedProducts.FirstOrDefault(f => f.Id == id);
             });
         }
 
@@ -48,9 +48,9 @@ namespace RelatedProductsApi.DataProviders
             return result.Entity;
         }
 
-        public async Task<bool> DeleteAsync(Guid guid)
+        public async Task<bool> DeleteAsync(Guid id)
         {
-            var result = _relatedProductsDbContext.RelatedProducts.FirstOrDefault(f => f.Guid == guid);
+            var result = _relatedProductsDbContext.RelatedProducts.FirstOrDefault(f => f.Id == id);
 
             if (result != null)
             {
@@ -64,7 +64,7 @@ namespace RelatedProductsApi.DataProviders
 
         public async Task<bool> UpdateAsync(RelatedProductEntity relatedProductEntity)
         {
-            var result = _relatedProductsDbContext.RelatedProducts.FirstOrDefault(f => f.Guid == relatedProductEntity.Guid);
+            var result = _relatedProductsDbContext.RelatedProducts.FirstOrDefault(f => f.Id == relatedProductEntity.Id);
 
             if (result != null)
             {
