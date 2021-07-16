@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
-using RelatedProductsApi.Configurations;
+using Microsoft.EntityFrameworkCore;
 using RelatedProductsApi.Data;
 using RelatedProductsApi.DataProviders.Abstractions;
 
@@ -12,32 +9,26 @@ namespace RelatedProductsApi.DataProviders
     public class RelatedProductProvider : IRelatedProductProvider
     {
         private readonly RelatedProductsDbContext _relatedProductsDbContext;
-        private readonly int _pageSize;
 
-        public RelatedProductProvider(
-            RelatedProductsDbContext relatedProductsDbContext,
-            IOptions<Config> options)
+        public RelatedProductProvider(RelatedProductsDbContext relatedProductsDbContext)
         {
             _relatedProductsDbContext = relatedProductsDbContext;
-            _pageSize = options.Value.RelatedProductsApi.PageSize;
         }
 
-        public async Task<IEnumerable<RelatedProductEntity>> GetByPageAsync(int page)
+        public async Task<PagingDataResult> GetByPageAsync(int page, int pageSize)
         {
-            return await Task.Run(() =>
-            {
-                var skipNumber = page * _pageSize;
-                var takeNumber = _pageSize;
-                return _relatedProductsDbContext.RelatedProducts.Skip(skipNumber).Take(takeNumber);
-            });
+            var totalRecords = await _relatedProductsDbContext.RelatedProducts.CountAsync();
+            var pageData = await _relatedProductsDbContext.RelatedProducts
+                .Skip(page * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return new PagingDataResult() { RelatedProductsEntity = pageData, TotalRecords = totalRecords };
         }
 
-        public async Task<RelatedProductEntity> GetByIdAsync(Guid id)
+        public async Task<RelatedProductEntity> GetByIdAsync(string id)
         {
-            return await Task.Run(() =>
-            {
-                return _relatedProductsDbContext.RelatedProducts.FirstOrDefault(f => f.Id == id);
-            });
+            return await _relatedProductsDbContext.RelatedProducts.FirstOrDefaultAsync(f => f.Id == id);
         }
 
         public async Task<RelatedProductEntity> AddAsync(RelatedProductEntity relatedProductEntity)
@@ -48,7 +39,7 @@ namespace RelatedProductsApi.DataProviders
             return result.Entity;
         }
 
-        public async Task<bool> DeleteAsync(Guid id)
+        public async Task<bool> DeleteAsync(string id)
         {
             var result = _relatedProductsDbContext.RelatedProducts.FirstOrDefault(f => f.Id == id);
 
@@ -74,15 +65,6 @@ namespace RelatedProductsApi.DataProviders
             }
 
             return false;
-        }
-
-        public async Task<int> GetPageCounterAsync()
-        {
-            return await Task.Run(() =>
-            {
-                var result = _relatedProductsDbContext.RelatedProducts.Count() / (double)_pageSize;
-                return (int)Math.Ceiling(result);
-            });
         }
     }
 }
