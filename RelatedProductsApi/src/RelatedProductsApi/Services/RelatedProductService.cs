@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using RelatedProductsApi.Data;
 using RelatedProductsApi.DataProviders.Abstractions;
 using RelatedProductsApi.Models;
+using RelatedProductsApi.Models.Requests;
 using RelatedProductsApi.Models.Responses;
 using RelatedProductsApi.Services.Abstractions;
 
@@ -23,27 +23,25 @@ namespace RelatedProductsApi.Services
             _mapper = mapper;
         }
 
-        public async Task<GetByPageResponse> GetByPageAsync(int page)
+        public async Task<GetByPageResponse> GetByPageAsync(GetByPageRequest getByPageRequest)
         {
-            var result = await _relatedProductProvider.GetByPageAsync(page);
+            var result = await _relatedProductProvider.GetByPageAsync(getByPageRequest.Page, getByPageRequest.PageSize);
 
-            var relatedProducts = _mapper.Map<List<RelatedProduct>>(result);
-
-            return new GetByPageResponse() { RelatedProducts = relatedProducts };
+            return _mapper.Map<GetByPageResponse>(result);
         }
 
-        public async Task<GetByIdResponse> GetByIdAsync(Guid id)
+        public async Task<GetByIdResponse> GetByIdAsync(GetByIdRequest getByIdRequest)
         {
-            var result = await _relatedProductProvider.GetByIdAsync(id);
+            var result = await _relatedProductProvider.GetByIdAsync(getByIdRequest.Id);
 
             var relatedProduct = _mapper.Map<RelatedProduct>(result);
 
             return new GetByIdResponse() { RelatedProduct = relatedProduct };
         }
 
-        public async Task<AddResponse> AddAsync(RelatedProduct relatedProduct)
+        public async Task<AddResponse> AddAsync(AddRequest addRequest)
         {
-            var relatedProductEntity = _mapper.Map<RelatedProductEntity>(relatedProduct);
+            var relatedProductEntity = _mapper.Map<RelatedProductEntity>(addRequest);
 
             var result = await _relatedProductProvider.AddAsync(relatedProductEntity);
 
@@ -52,9 +50,9 @@ namespace RelatedProductsApi.Services
             return new AddResponse() { RelatedProduct = relatedProductOut };
         }
 
-        public async Task<DeleteResponse> DeleteAsync(Guid id)
+        public async Task<DeleteResponse> DeleteAsync(DeleteRequest deleteRequest)
         {
-            var result = await _relatedProductProvider.DeleteAsync(id);
+            var result = await _relatedProductProvider.DeleteAsync(deleteRequest.Id);
 
             return new DeleteResponse() { IsDeleted = result };
         }
@@ -66,13 +64,6 @@ namespace RelatedProductsApi.Services
             var result = await _relatedProductProvider.UpdateAsync(relatedProductEntity);
 
             return new UpdateResponse() { IsUpdated = result };
-        }
-
-        public async Task<GetPageCounterResponse> GetPageCounterAsync()
-        {
-            var result = await _relatedProductProvider.GetPageCounterAsync();
-
-            return new GetPageCounterResponse() { PageCounter = result };
         }
     }
 }
