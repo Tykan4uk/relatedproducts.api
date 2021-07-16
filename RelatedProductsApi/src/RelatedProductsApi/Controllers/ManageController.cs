@@ -29,21 +29,21 @@ namespace RelatedProductsApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetByPage([FromQuery] GetByPageRequest getByPageRequest)
         {
-            var result = await _relatedProductService.GetByPageAsync(getByPageRequest.Page);
+            var result = await _relatedProductService.GetByPageAsync(getByPageRequest);
             return result != null ? Ok(result) : BadRequest(result);
         }
 
         [HttpGet]
         public async Task<IActionResult> GetById([FromQuery] GetByIdRequest getByIdRequest)
         {
-            var result = await _relatedProductService.GetByIdAsync(getByIdRequest.Id);
+            var result = await _relatedProductService.GetByIdAsync(getByIdRequest);
             return result != null ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] AddRequest addRequest)
         {
-            var result = await _relatedProductService.AddAsync(addRequest.RelatedProduct);
+            var result = await _relatedProductService.AddAsync(addRequest);
             return result != null ? Ok(result) : BadRequest(result);
         }
 
@@ -57,14 +57,7 @@ namespace RelatedProductsApi.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete([FromBody] DeleteRequest deleteRequest)
         {
-            var result = await _relatedProductService.DeleteAsync(deleteRequest.Id);
-            return result != null ? Ok(result) : BadRequest(result);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetPageCounter()
-        {
-            var result = await _relatedProductService.GetPageCounterAsync();
+            var result = await _relatedProductService.DeleteAsync(deleteRequest);
             return result != null ? Ok(result) : BadRequest(result);
         }
     }
