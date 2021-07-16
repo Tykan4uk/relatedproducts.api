@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-using RelatedProductsApi.Data;
 using RelatedProductsApi.Models;
 
-namespace RelatedProductsApi
+namespace RelatedProductsApi.Data.Mapping
 {
     public class MappingProfile : Profile
     {
