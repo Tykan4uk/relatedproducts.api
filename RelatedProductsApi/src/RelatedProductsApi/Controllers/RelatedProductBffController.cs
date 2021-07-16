@@ -39,26 +39,5 @@ namespace RelatedProductsApi.Controllers
             var result = await _relatedProductService.GetByIdAsync(getByIdRequest);
             return result != null ? Ok(result) : BadRequest(result);
         }
-
-        [HttpPost]
-        public async Task<IActionResult> Add([FromBody] AddRequest addRequest)
-        {
-            var result = await _relatedProductService.AddAsync(addRequest);
-            return result != null ? Ok(result) : BadRequest(result);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Put([FromBody] UpdateRequest updateRequest)
-        {
-            var result = await _relatedProductService.UpdateAsync(updateRequest.RelatedProduct);
-            return result != null ? Ok(result) : BadRequest(result);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Delete([FromBody] DeleteRequest deleteRequest)
-        {
-            var result = await _relatedProductService.DeleteAsync(deleteRequest);
-            return result != null ? Ok(result) : BadRequest(result);
-        }
     }
 }
