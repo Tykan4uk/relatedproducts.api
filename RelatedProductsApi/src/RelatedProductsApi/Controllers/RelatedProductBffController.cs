@@ -27,7 +27,7 @@ namespace RelatedProductsApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetByPage(GetByPageRequest getByPageRequest)
+        public async Task<IActionResult> GetByPage([FromBody] GetByPageRequest getByPageRequest)
         {
             var result = await _relatedProductService.GetByPageAsync(getByPageRequest);
             return result != null ? Ok(result) : BadRequest(result);
