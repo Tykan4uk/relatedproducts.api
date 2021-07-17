@@ -19,7 +19,7 @@ namespace RelatedProductsApi.DataProviders
         {
             var totalRecords = await _relatedProductsDbContext.RelatedProducts.CountAsync();
             var pageData = await _relatedProductsDbContext.RelatedProducts
-                .Skip(page * pageSize)
+                .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
