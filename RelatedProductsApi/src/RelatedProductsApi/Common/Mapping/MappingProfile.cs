@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
+using RelatedProductsApi.Data;
 using RelatedProductsApi.Data.Entities;
 using RelatedProductsApi.Models;
 using RelatedProductsApi.Models.Responses;
 
-namespace RelatedProductsApi.Data.Mapping
+namespace RelatedProductsApi.Common.Mapping
 {
     public class MappingProfile : Profile
     {
