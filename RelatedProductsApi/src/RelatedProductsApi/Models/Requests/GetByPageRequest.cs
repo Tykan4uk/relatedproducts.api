@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace RelatedProductsApi.Models.Requests
+﻿namespace RelatedProductsApi.Models.Requests
 {
     public class GetByPageRequest
     {
