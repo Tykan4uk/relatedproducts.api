@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using RelatedProductsApi.Data.Entities;
 
 namespace RelatedProductsApi.Data
 {

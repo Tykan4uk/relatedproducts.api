@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using RelatedProductsApi.Data;
+using RelatedProductsApi.Data.Entities;
 
 namespace RelatedProductsApi.DataProviders.Abstractions
 {

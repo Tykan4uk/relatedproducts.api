@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using RelatedProductsApi.Data.Entities;
 using RelatedProductsApi.Models;
 using RelatedProductsApi.Models.Responses;
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RelatedProductsApi.Data.Entities;
 
 namespace RelatedProductsApi.Data
 {

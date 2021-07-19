@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using RelatedProductsApi.Data;
+using RelatedProductsApi.Data.Entities;
 using RelatedProductsApi.DataProviders.Abstractions;
 
 namespace RelatedProductsApi.DataProviders

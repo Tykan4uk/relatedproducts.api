@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RelatedProductsApi.Data
+namespace RelatedProductsApi.Data.Entities
 {
     public class RelatedProductEntity
     {
