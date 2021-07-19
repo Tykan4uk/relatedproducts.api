@@ -1,16 +1,16 @@
 ﻿using System.Threading.Tasks;
-using RelatedProductsApi.Models;
-using RelatedProductsApi.Models.Requests;
 using RelatedProductsApi.Models.Responses;
 
 namespace RelatedProductsApi.Services.Abstractions
 {
     public interface IRelatedProductService
     {
-        Task<GetByPageResponse> GetByPageAsync(GetByPageRequest getByPageRequest);
-        Task<GetByIdResponse> GetByIdAsync(GetByIdRequest getByIdRequest);
-        Task<AddResponse> AddAsync(AddRequest addRequest);
-        Task<DeleteResponse> DeleteAsync(DeleteRequest deleteRequest);
-        Task<UpdateResponse> UpdateAsync(RelatedProduct relatedProduct);
+        Task<GetByPageResponse> GetByPageAsync(int page, int pageSize);
+        Task<GetByIdResponse> GetByIdAsync(string id);
+        Task<AddResponse> AddAsync(string name, string description, decimal price);
+        Task<DeleteResponse> DeleteAsync(string id);
+        Task<UpdateResponse> UpdateNameAsync(string id, string name);
+        Task<UpdateResponse> UpdateDescriptionAsync(string id, string description);
+        Task<UpdateResponse> UpdatePriceAsync(string id, decimal price);
     }
 }

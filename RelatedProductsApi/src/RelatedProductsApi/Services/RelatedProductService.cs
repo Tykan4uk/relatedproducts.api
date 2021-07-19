@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using RelatedProductsApi.Data;
 using RelatedProductsApi.DataProviders.Abstractions;
 using RelatedProductsApi.Models;
-using RelatedProductsApi.Models.Requests;
 using RelatedProductsApi.Models.Responses;
 using RelatedProductsApi.Services.Abstractions;
 
@@ -25,21 +24,21 @@ namespace RelatedProductsApi.Services
             _mapper = mapper;
         }
 
-        public async Task<GetByPageResponse> GetByPageAsync(GetByPageRequest getByPageRequest)
+        public async Task<GetByPageResponse> GetByPageAsync(int page, int pageSize)
         {
             return await ExecuteSafe(async () =>
             {
-                var result = await _relatedProductProvider.GetByPageAsync(getByPageRequest.Page, getByPageRequest.PageSize);
+                var result = await _relatedProductProvider.GetByPageAsync(page, pageSize);
 
                 return _mapper.Map<GetByPageResponse>(result);
             });
         }
 
-        public async Task<GetByIdResponse> GetByIdAsync(GetByIdRequest getByIdRequest)
+        public async Task<GetByIdResponse> GetByIdAsync(string id)
         {
             return await ExecuteSafe(async () =>
             {
-                var result = await _relatedProductProvider.GetByIdAsync(getByIdRequest.Id);
+                var result = await _relatedProductProvider.GetByIdAsync(id);
 
                 var relatedProduct = _mapper.Map<RelatedProduct>(result);
 
@@ -47,13 +46,11 @@ namespace RelatedProductsApi.Services
             });
         }
 
-        public async Task<AddResponse> AddAsync(AddRequest addRequest)
+        public async Task<AddResponse> AddAsync(string name, string description, decimal price)
         {
             return await ExecuteSafe(async () =>
             {
-                var relatedProductEntity = _mapper.Map<RelatedProductEntity>(addRequest);
-
-                var result = await _relatedProductProvider.AddAsync(relatedProductEntity);
+                var result = await _relatedProductProvider.AddAsync(name, description, price);
 
                 var relatedProductOut = _mapper.Map<RelatedProduct>(result);
 
@@ -61,23 +58,41 @@ namespace RelatedProductsApi.Services
             });
         }
 
-        public async Task<DeleteResponse> DeleteAsync(DeleteRequest deleteRequest)
+        public async Task<DeleteResponse> DeleteAsync(string id)
         {
             return await ExecuteSafe(async () =>
             {
-                var result = await _relatedProductProvider.DeleteAsync(deleteRequest.Id);
+                var result = await _relatedProductProvider.DeleteAsync(id);
 
                 return new DeleteResponse() { IsDeleted = result };
             });
         }
 
-        public async Task<UpdateResponse> UpdateAsync(RelatedProduct relatedProduct)
+        public async Task<UpdateResponse> UpdateNameAsync(string id, string name)
         {
             return await ExecuteSafe(async () =>
             {
-                var relatedProductEntity = _mapper.Map<RelatedProductEntity>(relatedProduct);
+                var result = await _relatedProductProvider.UpdateNameAsync(id, name);
 
-                var result = await _relatedProductProvider.UpdateAsync(relatedProductEntity);
+                return new UpdateResponse() { IsUpdated = result };
+            });
+        }
+
+        public async Task<UpdateResponse> UpdateDescriptionAsync(string id, string description)
+        {
+            return await ExecuteSafe(async () =>
+            {
+                var result = await _relatedProductProvider.UpdateDescriptionAsync(id, description);
+
+                return new UpdateResponse() { IsUpdated = result };
+            });
+        }
+
+        public async Task<UpdateResponse> UpdatePriceAsync(string id, decimal price)
+        {
+            return await ExecuteSafe(async () =>
+            {
+                var result = await _relatedProductProvider.UpdatePriceAsync(id, price);
 
                 return new UpdateResponse() { IsUpdated = result };
             });
