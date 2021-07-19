@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using RelatedProductsApi.Data;
@@ -31,9 +32,17 @@ namespace RelatedProductsApi.DataProviders
             return await _relatedProductsDbContext.RelatedProducts.FirstOrDefaultAsync(f => f.Id == id);
         }
 
-        public async Task<RelatedProductEntity> AddAsync(RelatedProductEntity relatedProductEntity)
+        public async Task<RelatedProductEntity> AddAsync(string name, string description, decimal price)
         {
-            var result = await _relatedProductsDbContext.RelatedProducts.AddAsync(relatedProductEntity);
+            var id = Guid.NewGuid().ToString();
+            var result = await _relatedProductsDbContext.RelatedProducts.AddAsync(
+                new RelatedProductEntity()
+                {
+                    Id = id,
+                    Name = name,
+                    Description = description,
+                    Price = price
+                });
             await _relatedProductsDbContext.SaveChangesAsync();
 
             return result.Entity;
@@ -53,13 +62,41 @@ namespace RelatedProductsApi.DataProviders
             return false;
         }
 
-        public async Task<bool> UpdateAsync(RelatedProductEntity relatedProductEntity)
+        public async Task<bool> UpdateNameAsync(string id, string name)
         {
-            var result = _relatedProductsDbContext.RelatedProducts.FirstOrDefault(f => f.Id == relatedProductEntity.Id);
+            var result = _relatedProductsDbContext.RelatedProducts.FirstOrDefault(f => f.Id == id);
 
             if (result != null)
             {
-                _relatedProductsDbContext.RelatedProducts.Update(result);
+                result.Name = name;
+                await _relatedProductsDbContext.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> UpdateDescriptionAsync(string id, string description)
+        {
+            var result = _relatedProductsDbContext.RelatedProducts.FirstOrDefault(f => f.Id == id);
+
+            if (result != null)
+            {
+                result.Description = description;
+                await _relatedProductsDbContext.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> UpdatePriceAsync(string id, decimal price)
+        {
+            var result = _relatedProductsDbContext.RelatedProducts.FirstOrDefault(f => f.Id == id);
+
+            if (result != null)
+            {
+                result.Price = price;
                 await _relatedProductsDbContext.SaveChangesAsync();
                 return true;
             }
