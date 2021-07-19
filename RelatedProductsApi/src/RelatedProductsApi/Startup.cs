@@ -37,7 +37,7 @@ namespace RelatedProductsApi
             });
             services.Configure<Config>(AppConfiguration);
             var connectionString = AppConfiguration["RelatedProductsApi:ConnectionString"];
-            services.AddDbContext<RelatedProductsDbContext>(
+            services.AddDbContextFactory<RelatedProductsDbContext>(
                 opts => opts.UseNpgsql(connectionString));
             services.AddTransient<IRelatedProductProvider, RelatedProductProvider>();
             services.AddTransient<IRelatedProductService, RelatedProductService>();
