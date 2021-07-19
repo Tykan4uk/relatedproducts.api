@@ -10,9 +10,9 @@ namespace RelatedProductsApi.DataProviders
     {
         private readonly RelatedProductsDbContext _relatedProductsDbContext;
 
-        public RelatedProductProvider(RelatedProductsDbContext relatedProductsDbContext)
+        public RelatedProductProvider(IDbContextFactory<RelatedProductsDbContext> dbContextFactory)
         {
-            _relatedProductsDbContext = relatedProductsDbContext;
+            _relatedProductsDbContext = dbContextFactory.CreateDbContext();
         }
 
         public async Task<PagingDataResult> GetByPageAsync(int page, int pageSize)
