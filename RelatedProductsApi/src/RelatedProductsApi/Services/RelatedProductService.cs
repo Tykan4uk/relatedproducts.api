@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using RelatedProductsApi.Common.Enums;
 using RelatedProductsApi.Data;
 using RelatedProductsApi.DataProviders.Abstractions;
 using RelatedProductsApi.Models;
@@ -24,11 +25,11 @@ namespace RelatedProductsApi.Services
             _mapper = mapper;
         }
 
-        public async Task<GetByPageResponse> GetByPageAsync(int page, int pageSize)
+        public async Task<GetByPageResponse> GetByPageAsync(int page, int pageSize, SortedTypeEnum sortedType)
         {
             return await ExecuteSafe(async () =>
             {
-                var result = await _relatedProductProvider.GetByPageAsync(page, pageSize);
+                var result = await _relatedProductProvider.GetByPageAsync(page, pageSize, sortedType);
 
                 return _mapper.Map<GetByPageResponse>(result);
             });
