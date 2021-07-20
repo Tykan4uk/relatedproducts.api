@@ -2,6 +2,6 @@
 {
     public class GetByIdResponse
     {
-        public RelatedProduct RelatedProduct { get; set; }
+        public RelatedProductModel RelatedProduct { get; set; }
     }
 }

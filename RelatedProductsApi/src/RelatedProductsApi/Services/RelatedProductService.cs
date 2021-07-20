@@ -41,7 +41,7 @@ namespace RelatedProductsApi.Services
             {
                 var result = await _relatedProductProvider.GetByIdAsync(id);
 
-                var relatedProduct = _mapper.Map<RelatedProduct>(result);
+                var relatedProduct = _mapper.Map<RelatedProductModel>(result);
 
                 return new GetByIdResponse() { RelatedProduct = relatedProduct };
             });
@@ -53,7 +53,7 @@ namespace RelatedProductsApi.Services
             {
                 var result = await _relatedProductProvider.AddAsync(name, description, price);
 
-                var relatedProductOut = _mapper.Map<RelatedProduct>(result);
+                var relatedProductOut = _mapper.Map<RelatedProductModel>(result);
 
                 return new AddResponse() { RelatedProduct = relatedProductOut };
             });

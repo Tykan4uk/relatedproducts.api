@@ -2,7 +2,7 @@
 
 namespace RelatedProductsApi.Models
 {
-    public class RelatedProduct
+    public class RelatedProductModel
     {
         public string Id { get; set; }
         public string Name { get; set; }

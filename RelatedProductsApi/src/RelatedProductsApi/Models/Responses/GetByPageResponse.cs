@@ -4,7 +4,7 @@ namespace RelatedProductsApi.Models.Responses
 {
     public class GetByPageResponse
     {
-        public IEnumerable<RelatedProduct> RelatedProducts { get; set; }
+        public IEnumerable<RelatedProductModel> RelatedProducts { get; set; }
         public int TotalRecords { get; set; }
     }
 }
