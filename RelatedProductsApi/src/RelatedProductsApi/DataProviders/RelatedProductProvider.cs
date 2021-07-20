@@ -24,16 +24,16 @@ namespace RelatedProductsApi.DataProviders
             switch (sortedType)
             {
                 case SortedTypeEnum.CreateDateAscending:
-                    query = _relatedProductsDbContext.RelatedProducts.OrderBy(o => o.CreateDate);
+                    query = query.OrderBy(o => o.CreateDate);
                     break;
                 case SortedTypeEnum.CreateDateDescending:
-                    query = _relatedProductsDbContext.RelatedProducts.OrderByDescending(o => o.CreateDate);
+                    query = query.OrderByDescending(o => o.CreateDate);
                     break;
                 case SortedTypeEnum.PriceAscending:
-                    query = _relatedProductsDbContext.RelatedProducts.OrderBy(o => o.Price);
+                    query = query.OrderBy(o => o.Price);
                     break;
                 case SortedTypeEnum.PriceDescending:
-                    query = _relatedProductsDbContext.RelatedProducts.OrderByDescending(o => o.Price);
+                    query = query.OrderByDescending(o => o.Price);
                     break;
             }
 
