@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using RelatedProductsApi.Common.Enums;
 using RelatedProductsApi.Data;
 using RelatedProductsApi.Data.Entities;
 using RelatedProductsApi.DataProviders.Abstractions;
@@ -17,10 +18,27 @@ namespace RelatedProductsApi.DataProviders
             _relatedProductsDbContext = dbContextFactory.CreateDbContext();
         }
 
-        public async Task<PagingDataResult> GetByPageAsync(int page, int pageSize)
+        public async Task<PagingDataResult> GetByPageAsync(int page, int pageSize, SortedTypeEnum sortedType)
         {
+            IQueryable<RelatedProductEntity> query = _relatedProductsDbContext.RelatedProducts;
+            switch (sortedType)
+            {
+                case SortedTypeEnum.CreateDateAscending:
+                    query = _relatedProductsDbContext.RelatedProducts.OrderBy(o => o.CreateDate);
+                    break;
+                case SortedTypeEnum.CreateDateDescending:
+                    query = _relatedProductsDbContext.RelatedProducts.OrderByDescending(o => o.CreateDate);
+                    break;
+                case SortedTypeEnum.PriceAscending:
+                    query = _relatedProductsDbContext.RelatedProducts.OrderBy(o => o.Price);
+                    break;
+                case SortedTypeEnum.PriceDescending:
+                    query = _relatedProductsDbContext.RelatedProducts.OrderByDescending(o => o.Price);
+                    break;
+            }
+
             var totalRecords = await _relatedProductsDbContext.RelatedProducts.CountAsync();
-            var pageData = await _relatedProductsDbContext.RelatedProducts
+            var pageData = await query
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using RelatedProductsApi.Common.Enums;
 using RelatedProductsApi.Data;
 using RelatedProductsApi.Data.Entities;
 
@@ -6,7 +7,7 @@ namespace RelatedProductsApi.DataProviders.Abstractions
 {
     public interface IRelatedProductProvider
     {
-        Task<PagingDataResult> GetByPageAsync(int page, int pageSize);
+        Task<PagingDataResult> GetByPageAsync(int page, int pageSize, SortedTypeEnum sortedType);
         Task<RelatedProductEntity> GetByIdAsync(string id);
         Task<RelatedProductEntity> AddAsync(string name, string description, decimal price);
         Task<bool> DeleteAsync(string id);
