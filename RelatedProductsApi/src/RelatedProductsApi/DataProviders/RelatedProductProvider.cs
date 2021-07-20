@@ -36,13 +36,15 @@ namespace RelatedProductsApi.DataProviders
         public async Task<RelatedProductEntity> AddAsync(string name, string description, decimal price)
         {
             var id = Guid.NewGuid().ToString();
+            var createDate = DateTime.Now;
             var result = await _relatedProductsDbContext.RelatedProducts.AddAsync(
                 new RelatedProductEntity()
                 {
                     Id = id,
                     Name = name,
                     Description = description,
-                    Price = price
+                    Price = price,
+                    CreateDate = createDate
                 });
             await _relatedProductsDbContext.SaveChangesAsync();
 
