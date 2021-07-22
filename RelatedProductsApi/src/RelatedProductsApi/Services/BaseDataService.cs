@@ -5,7 +5,7 @@ using RelatedProductsApi.Data;
 
 namespace RelatedProductsApi.Services
 {
-    public class BaseDataService
+    public abstract class BaseDataService
     {
         private readonly RelatedProductsDbContext _relatedProductsDbContext;
 
