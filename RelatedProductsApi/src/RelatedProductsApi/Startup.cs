@@ -48,12 +48,12 @@ namespace RelatedProductsApi
                 options.AddPolicy("ApiScope", policy =>
                 {
                     policy.RequireAuthenticatedUser();
-                    policy.RequireClaim("scope", "relatedproductapi.relatedproductapi");
+                    policy.RequireClaim("scope", "relatedproductsapi.relatedproductsapi");
                 });
                 options.AddPolicy("ApiScopeBff", policy =>
                 {
                     policy.RequireAuthenticatedUser();
-                    policy.RequireClaim("scope", "relatedproductapi.relatedproductapibff");
+                    policy.RequireClaim("scope", "relatedproductsapi.relatedproductsapibff");
                 });
             });
             services.AddAutoMapper(typeof(Startup));
