@@ -21,6 +21,7 @@ namespace RelatedProductsApi.Service
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.UseUrls("http://*:5003");
                 });
     }
 }
