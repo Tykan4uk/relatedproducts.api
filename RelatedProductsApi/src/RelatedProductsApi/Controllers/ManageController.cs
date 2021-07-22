@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RelatedProductsApi.Models.Requests;
@@ -8,6 +9,7 @@ namespace RelatedProductsApi.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]/[action]")]
+    [Authorize(Policy = "ApiScope")]
     public class ManageController : ControllerBase
     {
         private readonly ILogger<ManageController> _logger;
