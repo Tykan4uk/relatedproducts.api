@@ -27,14 +27,28 @@ namespace RelatedProductsApi.Controllers
         public async Task<IActionResult> GetByPage([FromBody] GetByPageRequest request)
         {
             var result = await _relatedProductService.GetByPageAsync(request.Page, request.PageSize, request.SortedType);
-            return result != null ? Ok(result) : BadRequest(result);
+
+            if (result == null)
+            {
+                _logger.LogInformation("(RelatedProductBffController/GetByPage)Null result. Bad request.");
+                return BadRequest(result);
+            }
+
+            return Ok(result);
         }
 
         [HttpPost]
         public async Task<IActionResult> GetById(GetByIdRequest request)
         {
             var result = await _relatedProductService.GetByIdAsync(request.Id);
-            return result != null ? Ok(result) : BadRequest(result);
+
+            if (result == null)
+            {
+                _logger.LogInformation("(RelatedProductBffController/GetById)Null result. Bad request.");
+                return BadRequest(result);
+            }
+
+            return Ok(result);
         }
     }
 }
