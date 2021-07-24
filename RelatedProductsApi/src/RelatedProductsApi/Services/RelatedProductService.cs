@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using RelatedProductsApi.Common.Enums;
 using RelatedProductsApi.Data;
 using RelatedProductsApi.DataProviders.Abstractions;
@@ -10,16 +10,17 @@ using RelatedProductsApi.Services.Abstractions;
 
 namespace RelatedProductsApi.Services
 {
-    public class RelatedProductService : BaseDataService, IRelatedProductService
+    public class RelatedProductService : BaseDataService<RelatedProductsDbContext>, IRelatedProductService
     {
         private readonly IRelatedProductProvider _relatedProductProvider;
         private readonly IMapper _mapper;
 
         public RelatedProductService(
-            IDbContextFactory<RelatedProductsDbContext> factory,
+            IDbContextWrapper<RelatedProductsDbContext> wrapper,
             IRelatedProductProvider relatedProductProvider,
-            IMapper mapper)
-            : base(factory)
+            IMapper mapper,
+            ILogger<RelatedProductService> logger)
+            : base(wrapper, logger)
         {
             _relatedProductProvider = relatedProductProvider;
             _mapper = mapper;
