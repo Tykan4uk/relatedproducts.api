@@ -2,24 +2,37 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using RelatedProductsApi.Common.Enums;
+using RelatedProductsApi.Common.Exceptions;
 using RelatedProductsApi.Data;
 using RelatedProductsApi.Data.Entities;
 using RelatedProductsApi.DataProviders.Abstractions;
+using RelatedProductsApi.Services.Abstractions;
 
 namespace RelatedProductsApi.DataProviders
 {
     public class RelatedProductProvider : IRelatedProductProvider
     {
         private readonly RelatedProductsDbContext _relatedProductsDbContext;
+        private readonly ILogger<RelatedProductProvider> _logger;
 
-        public RelatedProductProvider(IDbContextFactory<RelatedProductsDbContext> dbContextFactory)
+        public RelatedProductProvider(
+            IDbContextWrapper<RelatedProductsDbContext> dbContextWrapper,
+            ILogger<RelatedProductProvider> logger)
         {
-            _relatedProductsDbContext = dbContextFactory.CreateDbContext();
+            _relatedProductsDbContext = dbContextWrapper.DbContext;
+            _logger = logger;
         }
 
         public async Task<PagingDataResult> GetByPageAsync(int page, int pageSize, SortedTypeEnum sortedType)
         {
+            if (page <= 0 || pageSize <= 0)
+            {
+                _logger.LogError("(RelatedProductsDbContext/GetByPageAsync)Page or page size error!");
+                throw new BusinessException("Page or page size error!");
+            }
+
             IQueryable<RelatedProductEntity> query = _relatedProductsDbContext.RelatedProducts;
             switch (sortedType)
             {
@@ -34,6 +47,9 @@ namespace RelatedProductsApi.DataProviders
                     break;
                 case SortedTypeEnum.PriceDescending:
                     query = query.OrderByDescending(o => o.Price);
+                    break;
+                default:
+                    query = query.OrderBy(o => o.CreateDate);
                     break;
             }
 
