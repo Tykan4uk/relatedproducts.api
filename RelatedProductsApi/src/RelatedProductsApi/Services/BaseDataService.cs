@@ -1,22 +1,28 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using RelatedProductsApi.Data;
+using Microsoft.Extensions.Logging;
+using RelatedProductsApi.Services.Abstractions;
 
 namespace RelatedProductsApi.Services
 {
-    public abstract class BaseDataService
+    public abstract class BaseDataService<T>
+        where T : DbContext
     {
-        private readonly RelatedProductsDbContext _relatedProductsDbContext;
+        private readonly IDbContextWrapper<T> _dbContextWrapper;
+        private readonly ILogger<BaseDataService<T>> _logger;
 
-        public BaseDataService(IDbContextFactory<RelatedProductsDbContext> dbContextFactory)
+        public BaseDataService(
+            IDbContextWrapper<T> dbContextWrapper,
+            ILogger<BaseDataService<T>> logger)
         {
-            _relatedProductsDbContext = dbContextFactory.CreateDbContext();
+            _dbContextWrapper = dbContextWrapper;
+            _logger = logger;
         }
 
-        protected async Task<T> ExecuteSafe<T>(Func<Task<T>> action)
+        protected async Task<T1> ExecuteSafe<T1>(Func<Task<T1>> action)
         {
-            using (var transaction = _relatedProductsDbContext.Database.BeginTransaction())
+            using (var transaction = _dbContextWrapper.BeginTransaction())
             {
                 try
                 {
@@ -24,10 +30,11 @@ namespace RelatedProductsApi.Services
                     transaction.Commit();
                     return result;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     transaction.Rollback();
-                    throw;
+                    _logger.LogError(ex, $"transaction is rollbacked");
+                    return default(T1);
                 }
             }
         }
