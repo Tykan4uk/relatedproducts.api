@@ -68,6 +68,7 @@ namespace RelatedProductsApi
                 opts => opts.UseNpgsql(connectionString));
             services.AddTransient<IRelatedProductProvider, RelatedProductProvider>();
             services.AddTransient<IRelatedProductService, RelatedProductService>();
+            services.AddScoped<IDbContextWrapper<RelatedProductsDbContext>, DbContextWrapper<RelatedProductsDbContext>>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
