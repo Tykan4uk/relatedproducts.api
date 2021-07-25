@@ -120,5 +120,18 @@ namespace RelatedProductsApi.Controllers
 
             return Ok(result);
         }
+
+        public async Task<IActionResult> PutImageUrl([FromBody] UpdateImageUrlRequest request)
+        {
+            var result = await _relatedProductService.UpdateImageUrlAsync(request.Id, request.ImageUrl);
+
+            if (result == null)
+            {
+                _logger.LogInformation("(ManageController/PutImageUrl)Null result. Bad request.");
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
     }
 }
