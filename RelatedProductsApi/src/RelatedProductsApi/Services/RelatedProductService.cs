@@ -48,11 +48,11 @@ namespace RelatedProductsApi.Services
             });
         }
 
-        public async Task<AddResponse> AddAsync(string name, string description, decimal price)
+        public async Task<AddResponse> AddAsync(string name, string description, decimal price, string imageUrl)
         {
             return await ExecuteSafe(async () =>
             {
-                var result = await _relatedProductProvider.AddAsync(name, description, price);
+                var result = await _relatedProductProvider.AddAsync(name, description, price, imageUrl);
 
                 var relatedProductOut = _mapper.Map<RelatedProductModel>(result);
 
@@ -95,6 +95,16 @@ namespace RelatedProductsApi.Services
             return await ExecuteSafe(async () =>
             {
                 var result = await _relatedProductProvider.UpdatePriceAsync(id, price);
+
+                return new UpdateResponse() { IsUpdated = result };
+            });
+        }
+
+        public async Task<UpdateResponse> UpdateImageUrlAsync(string id, string imageUrl)
+        {
+            return await ExecuteSafe(async () =>
+            {
+                var result = await _relatedProductProvider.UpdateImageUrlAsync(id, imageUrl);
 
                 return new UpdateResponse() { IsUpdated = result };
             });
