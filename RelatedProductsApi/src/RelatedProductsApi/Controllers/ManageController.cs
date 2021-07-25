@@ -54,7 +54,7 @@ namespace RelatedProductsApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] AddRequest request)
         {
-            var result = await _relatedProductService.AddAsync(request.Name, request.Description, request.Price);
+            var result = await _relatedProductService.AddAsync(request.Name, request.Description, request.Price, request.ImageUrl);
 
             if (result == null)
             {
