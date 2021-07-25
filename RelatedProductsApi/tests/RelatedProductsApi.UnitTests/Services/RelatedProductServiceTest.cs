@@ -79,6 +79,8 @@ namespace RelatedProductsApi.UnitTests.Services
         private readonly string _testDescriptionFailed = "empty";
         private readonly decimal _testPriceSuccess = 10.0M;
         private readonly decimal _testPriceFailed = 0.0M;
+        private readonly string _testImageUrlSuccess = "testImageUrlSuccess";
+        private readonly string _testImageUrlFailed = "empty";
 
         public RelatedProductServiceTest()
         {
@@ -106,12 +108,14 @@ namespace RelatedProductsApi.UnitTests.Services
             _relatedProductProvider.Setup(s => s.AddAsync(
                 It.Is<string>(i => i.Contains(_testNameSuccess)),
                 It.Is<string>(i => i.Contains(_testDescriptionSuccess)),
-                It.Is<decimal>(i => i.Equals(_testPriceSuccess)))).ReturnsAsync(_relatedProductEntitySuccess);
+                It.Is<decimal>(i => i.Equals(_testPriceSuccess)),
+                It.Is<string>(i => i.Contains(_testImageUrlSuccess)))).ReturnsAsync(_relatedProductEntitySuccess);
 
             _relatedProductProvider.Setup(s => s.AddAsync(
                 It.Is<string>(i => i.Contains(_testNameFailed)),
                 It.Is<string>(i => i.Contains(_testDescriptionFailed)),
-                It.Is<decimal>(i => i.Equals(_testPriceFailed)))).ReturnsAsync(_relatedProductEntityFailed);
+                It.Is<decimal>(i => i.Equals(_testPriceFailed)),
+                It.Is<string>(i => i.Contains(_testImageUrlFailed)))).ReturnsAsync(_relatedProductEntityFailed);
 
             _relatedProductProvider.Setup(s => s.DeleteAsync(
                 It.Is<string>(i => i.Contains(_testIdSuccess)))).ReturnsAsync(true);
@@ -142,6 +146,14 @@ namespace RelatedProductsApi.UnitTests.Services
             _relatedProductProvider.Setup(s => s.UpdatePriceAsync(
                 It.Is<string>(i => i.Contains(_testIdFailed)),
                 It.Is<decimal>(i => i.Equals(_testPriceFailed)))).ReturnsAsync(false);
+
+            _relatedProductProvider.Setup(s => s.UpdateImageUrlAsync(
+                It.Is<string>(i => i.Contains(_testIdSuccess)),
+                It.Is<string>(i => i.Contains(_testImageUrlSuccess)))).ReturnsAsync(true);
+
+            _relatedProductProvider.Setup(s => s.UpdateImageUrlAsync(
+                It.Is<string>(i => i.Contains(_testIdFailed)),
+                It.Is<string>(i => i.Contains(_testImageUrlFailed)))).ReturnsAsync(false);
 
             _mapper.Setup(s => s.Map<RelatedProductModel>(
                 It.Is<RelatedProductEntity>(i => i.Equals(_relatedProductEntitySuccess)))).Returns(_relatedProductModelSuccess);
@@ -229,7 +241,7 @@ namespace RelatedProductsApi.UnitTests.Services
             // arrange
 
             // act
-            var result = await _relatedProductService.AddAsync(_testNameSuccess, _testDescriptionSuccess, _testPriceSuccess);
+            var result = await _relatedProductService.AddAsync(_testNameSuccess, _testDescriptionSuccess, _testPriceSuccess, _testImageUrlSuccess);
 
             // assert
             result.Should().NotBeNull();
@@ -243,7 +255,7 @@ namespace RelatedProductsApi.UnitTests.Services
             // arrange
 
             // act
-            var result = await _relatedProductService.AddAsync(_testNameFailed, _testDescriptionFailed, _testPriceFailed);
+            var result = await _relatedProductService.AddAsync(_testNameFailed, _testDescriptionFailed, _testPriceFailed, _testImageUrlFailed);
 
             // assert
             result.Should().NotBeNull();
@@ -349,6 +361,32 @@ namespace RelatedProductsApi.UnitTests.Services
 
             // act
             var result = await _relatedProductService.UpdatePriceAsync(_testIdFailed, _testPriceFailed);
+
+            // assert
+            result.Should().NotBeNull();
+            result.IsUpdated.Should().Be(false);
+        }
+
+        [Fact]
+        public async Task UpdatImageUrlAsync_Success()
+        {
+            // arrange
+
+            // act
+            var result = await _relatedProductService.UpdateImageUrlAsync(_testIdSuccess, _testImageUrlSuccess);
+
+            // assert
+            result.Should().NotBeNull();
+            result.IsUpdated.Should().Be(true);
+        }
+
+        [Fact]
+        public async Task UpdateImageUrlAsync_Failed()
+        {
+            // arrange
+
+            // act
+            var result = await _relatedProductService.UpdateImageUrlAsync(_testIdFailed, _testImageUrlFailed);
 
             // assert
             result.Should().NotBeNull();
