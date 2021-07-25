@@ -67,7 +67,7 @@ namespace RelatedProductsApi.DataProviders
             return await _relatedProductsDbContext.RelatedProducts.FirstOrDefaultAsync(f => f.Id == id);
         }
 
-        public async Task<RelatedProductEntity> AddAsync(string name, string description, decimal price)
+        public async Task<RelatedProductEntity> AddAsync(string name, string description, decimal price, string imageUrl)
         {
             var id = Guid.NewGuid().ToString();
             var createDate = DateTime.Now;
@@ -78,7 +78,8 @@ namespace RelatedProductsApi.DataProviders
                     Name = name,
                     Description = description,
                     Price = price,
-                    CreateDate = createDate
+                    CreateDate = createDate,
+                    ImageUrl = imageUrl
                 });
             await _relatedProductsDbContext.SaveChangesAsync();
 
@@ -134,6 +135,20 @@ namespace RelatedProductsApi.DataProviders
             if (result != null)
             {
                 result.Price = price;
+                await _relatedProductsDbContext.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> UpdateImageUrlAsync(string id, string imageUrl)
+        {
+            var result = _relatedProductsDbContext.RelatedProducts.FirstOrDefault(f => f.Id == id);
+
+            if (result != null)
+            {
+                result.ImageUrl = imageUrl;
                 await _relatedProductsDbContext.SaveChangesAsync();
                 return true;
             }

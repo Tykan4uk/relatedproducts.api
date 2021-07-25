@@ -9,10 +9,11 @@ namespace RelatedProductsApi.DataProviders.Abstractions
     {
         Task<PagingDataResult> GetByPageAsync(int page, int pageSize, SortedTypeEnum sortedType);
         Task<RelatedProductEntity> GetByIdAsync(string id);
-        Task<RelatedProductEntity> AddAsync(string name, string description, decimal price);
+        Task<RelatedProductEntity> AddAsync(string name, string description, decimal price, string imageUrl);
         Task<bool> DeleteAsync(string id);
         Task<bool> UpdateNameAsync(string id, string name);
         Task<bool> UpdateDescriptionAsync(string id, string description);
         Task<bool> UpdatePriceAsync(string id, decimal price);
+        Task<bool> UpdateImageUrlAsync(string id, string imageUrl);
     }
 }
