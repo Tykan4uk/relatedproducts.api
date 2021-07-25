@@ -121,6 +121,7 @@ namespace RelatedProductsApi.Controllers
             return Ok(result);
         }
 
+        [HttpPut]
         public async Task<IActionResult> PutImageUrl([FromBody] UpdateImageUrlRequest request)
         {
             var result = await _relatedProductService.UpdateImageUrlAsync(request.Id, request.ImageUrl);
