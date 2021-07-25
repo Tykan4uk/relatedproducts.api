@@ -9,5 +9,6 @@ namespace RelatedProductsApi.Data.Entities
         public string Description { get; set; }
         public decimal Price { get; set; }
         public DateTime CreateDate { get; set; }
+        public string ImageUrl { get; set; }
     }
 }
