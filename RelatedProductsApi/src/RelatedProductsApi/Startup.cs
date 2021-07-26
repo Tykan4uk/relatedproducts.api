@@ -31,6 +31,8 @@ namespace RelatedProductsApi
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient();
+
             // accepts any access token issued by identity server
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
@@ -70,6 +72,8 @@ namespace RelatedProductsApi
             services.AddTransient<IRelatedProductProvider, RelatedProductProvider>();
             services.AddTransient<IRelatedProductService, RelatedProductService>();
             services.AddScoped<IDbContextWrapper<RelatedProductsDbContext>, DbContextWrapper<RelatedProductsDbContext>>();
+            services.AddTransient<IHttpClientService, HttpClientService>();
+            services.AddTransient<IRateLimitService, RateLimitService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
