@@ -14,13 +14,16 @@ namespace RelatedProductsApi.Controllers
     {
         private readonly ILogger<ManageController> _logger;
         private readonly IRelatedProductService _relatedProductService;
+        private readonly IRateLimitService _rateLimitService;
 
         public ManageController(
             ILogger<ManageController> logger,
-            IRelatedProductService relatedProductService)
+            IRelatedProductService relatedProductService,
+            IRateLimitService rateLimitService)
         {
             _logger = logger;
             _relatedProductService = relatedProductService;
+            _rateLimitService = rateLimitService;
         }
 
         [HttpGet]
@@ -40,15 +43,24 @@ namespace RelatedProductsApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetById([FromQuery] GetByIdRequest request)
         {
-            var result = await _relatedProductService.GetByIdAsync(request.Id);
+            var ip = HttpContext.Connection.RemoteIpAddress;
+            var url = HttpContext.Request.Path.ToUriComponent();
 
-            if (result == null)
+            var checkRateLimit = await _rateLimitService.CheckRateLimit($"{ip}{url}");
+            if (checkRateLimit.CheckRateLimit)
             {
-                _logger.LogInformation("(ManageController/GetById)Null result. Bad request.");
-                return BadRequest(result);
+                var result = await _relatedProductService.GetByIdAsync(request.Id);
+
+                if (result == null)
+                {
+                    _logger.LogInformation("(ManageController/GetById)Null result. Bad request.");
+                    return BadRequest(result);
+                }
+
+                return Ok(result);
             }
 
-            return Ok(result);
+            return StatusCode(429);
         }
 
         [HttpPost]
