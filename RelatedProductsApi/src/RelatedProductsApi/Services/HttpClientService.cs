@@ -22,7 +22,7 @@ namespace RelatedProductsApi.Services
         {
             // discover endpoints from metadata
             var genTokenClient = new HttpClient();
-            var disco = await genTokenClient.GetDiscoveryDocumentAsync("http://localhost:5000");
+            var disco = await genTokenClient.GetDiscoveryDocumentAsync("http://192.168.1.120:5000");
 
             // request token
             var tokenResponse = await genTokenClient.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
